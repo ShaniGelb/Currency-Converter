@@ -1,41 +1,31 @@
-# Currency Converter System
+. Clone the repository and enter the project folder:
 
-## Quick Start Guide
+git clone <repository-url>
+cd currency-converter
 
-1. **Clone and Install**
-   ```bash
-   git clone <repository-url>
-   cd currency-converter
-   ```
+2. Backend Setup (Server):
 
-2. **Backend Setup**
-   ```bash
-   cd backend
-   npm install
-   npm run init-db
-   npm start
-   ```
+cd backend
+npm install
+npm run init-db      # לאתחול בסיס הנתונים
+npm run dev          # להרצה בסביבת פיתוח עם hot reload
 
-3. **Frontend Setup**
-   ```bash
-   cd frontend
-   npm install
-   npm start
-   ```
+3. Frontend Setup (Client):
 
-4. **Environment Setup**
-   Create `.env` file in backend directory:
-   ```
-   PORT=3000
-   DB_PATH=./db.sqlite
-   EXCHANGE_RATE_API_KEY=your_api_key
-   ```
+cd ../frontend
+npm install
+npm start            # להרצת ה-React או ה-frontend בסביבת פיתוח רגילה
 
-5. **Run Tests**
-   ```bash
-   cd backend
-   npm test
-   ```
+4. Create .env file in the backend folder:
+
+PORT=3000
+DB_PATH=./db.sqlite
+EXCHANGE_RATE_API_KEY=your_api_key
+
+5. Run Backend Tests (Optional):
+
+cd ../backend
+npm test
 
 ## 🔍 Overcoming API Challenges
 
@@ -159,3 +149,7 @@ This is a full-stack currency conversion system that supports both real-time and
    - npm
    - Git
    - VS Code 
+
+
+
+   
