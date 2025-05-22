@@ -1,31 +1,37 @@
-. Clone the repository and enter the project folder:
+💱 Currency Converter System
+🚀 Quick Start Guide
+
+    Clone the repository and enter the project folder
 
 git clone <repository-url>
 cd currency-converter
 
-2. Backend Setup (Server):
+Backend Setup (Server)
 
 cd backend
 npm install
-npm run init-db      # לאתחול בסיס הנתונים
-npm run dev          # להרצה בסביבת פיתוח עם hot reload
+npm run init-db      # Run once to initialize the database
+npm run dev          # Start the server in development mode (with hot reload)
 
-3. Frontend Setup (Client):
+Frontend Setup (Client)
 
 cd ../frontend
 npm install
-npm start            # להרצת ה-React או ה-frontend בסביבת פיתוח רגילה
+npm start            # Start the React frontend in development mode
 
-4. Create .env file in the backend folder:
+Environment Variables
+Create a .env file inside the backend folder with the following content:
 
 PORT=3000
 DB_PATH=./db.sqlite
 EXCHANGE_RATE_API_KEY=your_api_key
 
-5. Run Backend Tests (Optional):
+Running Backend Tests (Optional)
 
-cd ../backend
-npm test
+    cd ../backend
+    npm test
+
+
 
 ## 🔍 Overcoming API Challenges
 
