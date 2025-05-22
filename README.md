@@ -1,36 +1,37 @@
 💱 Currency Converter System
-🚀 Quick Start Guide
+# 💱 Currency Converter System 🚀 Quick Start Guide
 
-    Clone the repository and enter the project folder
+## 📁 Clone the repository and enter the project folder
 
+```bash
 git clone <repository-url>
 cd currency-converter
 
-Backend Setup (Server)
+🖥️ Backend Setup (Server)
 
 cd backend
 npm install
-npm run init-db      # Run once to initialize the database
-npm run dev          # Start the server in development mode (with hot reload)
+npm run init-db   # Run once to initialize the database
+npm run dev       # Start the server in development mode (with hot reload)
 
-Frontend Setup (Client)
+💻 Frontend Setup (Client)
 
 cd ../frontend
 npm install
-npm start            # Start the React frontend in development mode
+npm start         # Start the React frontend in development mode
 
-Environment Variables
+⚙️ Environment Variables
+
 Create a .env file inside the backend folder with the following content:
 
 PORT=3000
 DB_PATH=./db.sqlite
 EXCHANGE_RATE_API_KEY=your_api_key
 
-Running Backend Tests (Optional)
+🧪 Running Backend Tests (Optional)
 
-    cd ../backend
-    npm test
-
+cd ../backend
+npm test
 
 
 ## 🔍 Overcoming API Challenges
