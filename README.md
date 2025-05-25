@@ -1,4 +1,3 @@
-💱 Currency Converter System
 # 💱 Currency Converter System 🚀 Quick Start Guide
 
 ## 📁 Clone the repository and enter the project folder
@@ -6,39 +5,99 @@
 ```bash
 git clone <repository-url>
 cd currency-converter
+```
 
-🖥️ Backend Setup (Server)
+## 🖥️ Server Setup
 
-cd backend
+```bash
+cd server
 npm install
 npm run init-db   # Run once to initialize the database
 npm run dev       # Start the server in development mode (with hot reload)
+```
 
-💻 Frontend Setup (Client)
+## 💻 Client Setup
 
-cd ../frontend
+```bash
+cd ../client
 npm install
-npm start         # Start the React frontend in development mode
+npm start         # Start the React client in development mode
+```
 
-⚙️ Environment Variables
+## ⚙️ Environment Variables
 
-Create a .env file inside the backend folder with the following content:
+Create a `.env` file inside the server folder (if it doesn't exist) with the following content:
 
-PORT=3000
+```
+PORT=3001
 DB_PATH=./db.sqlite
-EXCHANGE_RATE_API_KEY=your_api_key
+EXCHANGE_API_KEY=d7b5c8ba798a78a0a0f754ea591ad32b
+```
 
-🧪 Running Backend Tests (Optional)
+Note: The API key provided is for demonstration purposes. You should replace it with your own API key from [exchangerate.host](https://exchangerate.host).
 
-cd ../backend
+⚠️ **API Limitations**: The free tier of exchangerate.host has some limitations:
+- Limited number of requests per month
+- Basic currency conversion features only
+- No support for some advanced features
+- Rate updates may be delayed
+
+
+## 🧪 Running Server Tests (Optional)
+
+```bash
+cd ../server
 npm test
+```
+
+📡 API Design
+
+The system follows RESTful API design principles and includes two distinct types of endpoints:
+
+    Internal Database Endpoints (/api/currencies, /api/rates, etc.)
+
+        Allow client access to stored data from the local database
+
+        Designed to be predictable, clean, and modular
+
+    External API Proxy Endpoints (/api/external/live, /api/external/historical/:date)
+
+        Server acts as a proxy to the public exchange rate API
+
+        This avoids exposing the API key to the frontend and enables future enhancements like caching or rate limiting
+
+This separation keeps responsibilities clear and makes the system more scalable and secure.
+🚀 What I Would Improve with More Time
+
+Given more time, I would:
+
+    Integrate AI for Smart DB Seeding
+    Instead of using static sample data, I would connect the database seeding process to an AI service that generates relevant exchange rate data based on the current date and the previous few days. This would simulate real-life data trends and make testing and demonstrations more meaningful.
+
+    Add graph visualizations of currency trends over time
+
+    Implement caching for external API results to improve performance and reduce rate-limit issues
+
+    Add user accounts and preferences, such as favorite currencies
+
+    Improve mobile responsiveness and accessibility
+
+    Add support for more advanced conversion logic (e.g., fees, commissions)
+
+    Add client-side tests to improve reliability and catch bugs early
+
+    Implement full validation on the server side to ensure data integrity and security
+
+    Enhance error handling for all failure cases to improve robustness
+
+    Implement advanced security measures to protect against common vulnerabilities and attacks
 
 
 ## 🔍 Overcoming API Challenges
 
 While integrating the external exchange rate API, I encountered several expected challenges with the integration. I first tried to resolve them on my own through direct investigation and debugging. When that didn't fully succeed, I turned to AI tools for assistance, but they were unable to provide a working solution.
 
-As a result, I took the initiative to dive into the official documentation and relevant resources to thoroughly understand the API's behavior. This hands-on approach helped me solve the problems independently and significantly strengthened my backend development and debugging skills.
+As a result, I took the initiative to dive into the official documentation and relevant resources to thoroughly understand the API's behavior. This hands-on approach helped me solve the problems independently and significantly strengthened my server development and debugging skills.
 
 ## 🧩 Smart Database Design
 
@@ -51,7 +110,7 @@ To keep the system simple yet scalable, I used a **base-currency strategy**:
 This avoids storing redundant combinations and makes the system easier to maintain and update.
 
 ## System Overview
-This is a full-stack currency conversion system that supports both real-time and historical exchange rates. The system consists of a Node.js/Express backend with SQLite database and a React frontend.
+This is a full-stack currency conversion system that supports both real-time and historical exchange rates. The system consists of a Node.js/Express server with SQLite database and a React client.
 
 ## Database Structure
 
@@ -92,7 +151,7 @@ This is a full-stack currency conversion system that supports both real-time and
    - Returns historical exchange rates for a specific date
    - Response: `{ rates: { [currency]: rate } }`
 
-## Frontend Components
+## Client Components
 
 1. **DbExchangeBox**
    - Handles currency conversion using database rates
@@ -133,20 +192,20 @@ This is a full-stack currency conversion system that supports both real-time and
 1. Real-time currency conversion
 2. Historical exchange rates
 3. Multiple currency support
-4. Responsive design
-5. Dark/Light mode
-6. Error handling and validation
-7. Database and API rate management
-8. User-friendly interface
+4. Error handling and validation
+5. Database and API rate management
+6. User-friendly interface
+7. Support for all currencies conversion
+8. Manual rate updates
 
 ## Technical Stack
-1. **Backend**
+1. **Server**
    - Node.js
    - Express.js
    - SQLite3
    - Axios
 
-2. **Frontend**
+2. **Client**
    - React.js
    - Bootstrap
    - Axios
