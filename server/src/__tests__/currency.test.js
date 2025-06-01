@@ -46,7 +46,7 @@ describe('Currency API Tests', () => {
       const response = await request(app)
         .get('/api/db-exchange-rates?from=USD&date=2025-05-22')
         .expect(200);
-      console.log('db-exchange-rates response:', response.body);
+      //console.log('db-exchange-rates response:', response.body);
       expect(typeof response.body).toBe('object');
       expect(response.body).toHaveProperty('rates');
     });

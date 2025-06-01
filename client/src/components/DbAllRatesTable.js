@@ -5,6 +5,7 @@ import api from '../services/api';
 // This component displays a table of all conversion rates from the DB for a selected base currency and date.
 
 function DbAllRatesTable({ currencies }) {
+    // State for the table form (base currency, amount, date, etc.)
     const [fromCurrency, setFromCurrency] = useState('USD');
     const [amount, setAmount] = useState(1);
     const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
@@ -12,6 +13,7 @@ function DbAllRatesTable({ currencies }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Fetch all exchange rates from the local database for the selected base currency and date
     const fetchRates = async () => {
         setLoading(true);
         setError(null);
@@ -30,6 +32,7 @@ function DbAllRatesTable({ currencies }) {
         setLoading(false);
     };
 
+    // Render the table form and the rates table
     return (
         <div className="exchange-box db-all-rates-box">
             <h2>All Currencies Conversion Table (DB)</h2>
@@ -55,6 +58,7 @@ function DbAllRatesTable({ currencies }) {
                 <button onClick={fetchRates} disabled={loading}>Show Table</button>
                 {loading && <div>Loading...</div>}
                 {error && <div className="error">{error}</div>}
+                {/* Render the rates table if data is available */}
                 {rates && (
                     <div className="rates-table-container">
                         <table className="rates-table">
@@ -72,11 +76,12 @@ function DbAllRatesTable({ currencies }) {
                                     <td>1</td>
                                     <td>{Number(amount).toFixed(4)}</td>
                                 </tr>
+                                {/* Render each target currency row */}
                                 {Object.keys(rates).map(target => {
                                     if (target === fromCurrency) return null;
-                                    // אם יש שער ישיר
+                                    // If there is a direct rate, or calculate via USD as an intermediate
                                     if (rates[target] && target !== 'USD' && rates['USD']) {
-                                        // חישוב דרך USD
+                                        // Calculate rate via USD
                                         const baseToUsd = rates['USD']; // fromCurrency -> USD
                                         const usdToTarget = rates[target]; // USD -> target
                                         const baseToTarget = usdToTarget / baseToUsd;
@@ -88,7 +93,7 @@ function DbAllRatesTable({ currencies }) {
                                             </tr>
                                         );
                                     } else if (rates[target]) {
-                                        // שער ישיר
+                                        // Direct rate
                                         return (
                                             <tr key={target}>
                                                 <td>{target}</td>

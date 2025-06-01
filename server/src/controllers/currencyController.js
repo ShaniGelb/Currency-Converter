@@ -186,61 +186,6 @@ const currencyController = {
     }
   },
 
-  /**
-   * Get historical exchange rates between two currencies for a date range.
-   * GET /historical-rates?from=USD&to=EUR&startDate=2025-05-01&endDate=2025-05-22
-   */
-  getHistoricalRates: async (req, res) => {
-    const { from, to, startDate, endDate } = req.query;
-    if (!from || !to || !startDate || !endDate) {
-      return res.status(400).json({ error: 'Missing parameters' });
-    }
-    try {
-      const rows = await new Promise((resolve, reject) => {
-        db.all(
-          'SELECT * FROM exchange_rates WHERE from_currency = ? AND to_currency = ? AND date(created_at) BETWEEN ? AND ? ORDER BY created_at ASC',
-          [from, to, startDate, endDate],
-          (err, rows) => {
-            if (err) reject(err);
-            else resolve(rows);
-          }
-        );
-      });
-      res.json(rows);
-    } catch (err) {
-      res.status(500).json({ error: 'Failed to fetch historical rates' });
-    }
-  },
-
-  /**
-   * Fetch latest rates from the external API and update the DB.
-   * POST /fetch-latest-rates
-   */
-  fetchLatestRatesFromApi: async (req, res) => {
-    try {
-      // Example: Use exchangerate.host free API
-      const response = await axios.get(`${EXCHANGE_API_BASE}/latest?base=USD`);
-      const rates = response.data.rates;
-      const [currencies] = await db.query('SELECT code FROM currencies');
-      const currencyCodes = currencies.map(c => c.code);
-      const now = new Date();
-      for (const from of currencyCodes) {
-        if (from === 'USD') {
-          for (const to of currencyCodes) {
-            if (to !== 'USD' && rates[to]) {
-              await db.query(
-                'INSERT INTO exchange_rates (from_currency, to_currency, rate, created_at) VALUES (?, ?, ?, ?)',
-                [from, to, rates[to], now]
-              );
-            }
-          }
-        }
-      }
-      res.json({ message: 'Latest rates fetched and updated' });
-    } catch (err) {
-      res.status(500).json({ error: 'Failed to fetch latest rates from API' });
-    }
-  },
 
   /**
    * Get exchange rate from the external API (without saving to DB).
@@ -362,4 +307,86 @@ const currencyController = {
   }
 };
 
-module.exports = currencyController; 
+module.exports = currencyController;
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Fetch latest rates from external API
+//router.post('/fetch-latest-rates', currencyController.fetchLatestRatesFromApi);
+
+// Get historical exchange rates
+//router.get('/historical-rates', currencyController.getHistoricalRates);
+
+
+ /**
+   * Get historical exchange rates between two currencies for a date range.
+   * GET /historical-rates?from=USD&to=EUR&startDate=2025-05-01&endDate=2025-05-22
+   
+  getHistoricalRates: async (req, res) => {
+    const { from, to, startDate, endDate } = req.query;
+    if (!from || !to || !startDate || !endDate) {
+      return res.status(400).json({ error: 'Missing parameters' });
+    }
+    try {
+      const rows = await new Promise((resolve, reject) => {
+        db.all(
+          'SELECT * FROM exchange_rates WHERE from_currency = ? AND to_currency = ? AND date(created_at) BETWEEN ? AND ? ORDER BY created_at ASC',
+          [from, to, startDate, endDate],
+          (err, rows) => {
+            if (err) reject(err);
+            else resolve(rows);
+          }
+        );
+      });
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch historical rates' });
+    }
+  },*/
+
+  /**
+   * Fetch latest rates from the external API and update the DB.
+   * POST /fetch-latest-rates
+  
+  fetchLatestRatesFromApi: async (req, res) => {
+    try {
+      // Example: Use exchangerate.host free API
+      const response = await axios.get(`${EXCHANGE_API_BASE}/latest?base=USD`);
+      const rates = response.data.rates;
+      const [currencies] = await db.query('SELECT code FROM currencies');
+      const currencyCodes = currencies.map(c => c.code);
+      const now = new Date();
+      for (const from of currencyCodes) {
+        if (from === 'USD') {
+          for (const to of currencyCodes) {
+            if (to !== 'USD' && rates[to]) {
+              await db.query(
+                'INSERT INTO exchange_rates (from_currency, to_currency, rate, created_at) VALUES (?, ?, ?, ?)',
+                [from, to, rates[to], now]
+              );
+            }
+          }
+        }
+      }
+      res.json({ message: 'Latest rates fetched and updated' });
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch latest rates from API' });
+    }
+  }, */
+  

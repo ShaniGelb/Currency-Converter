@@ -5,6 +5,7 @@ import api from '../services/api';
 // This component displays a table of all conversion rates from the external API for a selected base currency.
 
 function ApiAllRatesTable({ currencies }) {
+    // State for the table form (base currency, amount, etc.)
     const [fromCurrency, setFromCurrency] = useState('USD');
     const [amount, setAmount] = useState(1);
     const [rates, setRates] = useState(null);
@@ -12,6 +13,7 @@ function ApiAllRatesTable({ currencies }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Fetch all exchange rates from the external API for the selected base currency
     const fetchRates = async () => {
         setLoading(true);
         setError(null);
@@ -32,6 +34,7 @@ function ApiAllRatesTable({ currencies }) {
         setLoading(false);
     };
 
+    // Render the table form and the rates table
     return (
         <div className="exchange-box api-all-rates-box">
             <h2>All Currencies Conversion Table (External API)</h2>
@@ -50,6 +53,7 @@ function ApiAllRatesTable({ currencies }) {
                     ))}
                 </select>
                 <button onClick={fetchRates} disabled={loading}>Show Table</button>
+                {/* Show error if base currency is not USD (API limitation) */}
                 {fromCurrency !== 'USD' && (
                     <div className="error">
                         Conversion table is only available for USD as the base currency (API limitation)
@@ -57,6 +61,7 @@ function ApiAllRatesTable({ currencies }) {
                 )}
                 {loading && <div>Loading...</div>}
                 {error && <div className="error">{error}</div>}
+                {/* Render the rates table if data is available and base is USD */}
                 {rates && fromCurrency === 'USD' && (
                     <div className="rates-table-container">
                         <table className="rates-table">
@@ -68,6 +73,7 @@ function ApiAllRatesTable({ currencies }) {
                                 </tr>
                             </thead>
                             <tbody>
+                                {/* Render each target currency row */}
                                 {Object.entries(rates).map(([key, usdToTarget]) => {
                                     const targetCode = key.replace('USD', '');
                                     if (targetCode === fromCurrency) return null;
@@ -81,6 +87,7 @@ function ApiAllRatesTable({ currencies }) {
                                 })}
                             </tbody>
                         </table>
+                        {/* Show last update time if available */}
                         {lastUpdate && <p className="last-update">Last update: {lastUpdate}</p>}
                     </div>
                 )}

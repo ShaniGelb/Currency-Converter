@@ -5,7 +5,7 @@ import api from '../services/api';
 // This component allows users to convert currencies and manually update rates using the local DB.
 
 function DbExchangeBox({ currencies }) {
-    // State for conversion
+    // State for the conversion form (selected currencies, amount, date, etc.)
     const [fromCurrency, setFromCurrency] = useState('USD');
     const [toCurrency, setToCurrency] = useState('EUR');
     const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
@@ -15,13 +15,14 @@ function DbExchangeBox({ currencies }) {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    // State for manual update
+    // State for the manual rate update form
     const [updateFrom, setUpdateFrom] = useState('USD');
     const [updateTo, setUpdateTo] = useState('EUR');
     const [manualRate, setManualRate] = useState('');
     const [updateMsg, setUpdateMsg] = useState(null);
     const [updateLoading, setUpdateLoading] = useState(false);
 
+    // Fetch exchange rate from the local database and calculate the result
     const fetchRate = async () => {
         setLoading(true);
         setError(null);
@@ -44,6 +45,7 @@ function DbExchangeBox({ currencies }) {
         setLoading(false);
     };
 
+    // Manually update the exchange rate in the local database
     const updateRate = async () => {
         if (!manualRate || isNaN(manualRate) || manualRate <= 0) {
             setUpdateMsg('Please enter a valid value');
@@ -55,6 +57,7 @@ function DbExchangeBox({ currencies }) {
             await api.updateExchangeRate(updateFrom, updateTo, parseFloat(manualRate));
             setManualRate('');
             setUpdateMsg('Value updated successfully!');
+            // If the updated pair is the one currently selected, refresh the date to trigger a reload
             if (updateFrom === fromCurrency && updateTo === toCurrency) {
                 setDate(new Date().toISOString().slice(0, 10));
             }
@@ -64,9 +67,11 @@ function DbExchangeBox({ currencies }) {
         setUpdateLoading(false);
     };
 
+    // Render the conversion form and manual rate update form
     return (
         <div className="exchange-box db-box">
             <h2>Conversion (DB)</h2>
+            {/* Conversion Form */}
             <div className="exchange-form-vertical" style={{gap: '12px', display: 'flex', flexDirection: 'column'}}>
                 <div className="input-group">
                     <input
@@ -126,8 +131,9 @@ function DbExchangeBox({ currencies }) {
                 {error && <div className="error">{error}</div>}
             </div>
             <hr className="divider" />
+            {/* Manual Rate Update Form */}
             <div className="exchange-form-vertical">
-                <h3 style={{marginBottom: 0}}>Manual Rate Update</h3>
+                <h2 >Manual Rate Update</h2>
                 <select value={updateFrom} onChange={e => setUpdateFrom(e.target.value)}>
                     {currencies.map(c => (
                         <option key={c.code} value={c.code}>{c.code} - {c.name}</option>

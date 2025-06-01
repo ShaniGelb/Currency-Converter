@@ -65,12 +65,19 @@ function insertSampleRates() {
             else if (from.code === 'USD' && to.code === 'GBP') baseRate = 0.79;
             else if (from.code === 'GBP' && to.code === 'USD') baseRate = 1.27;
             else if (from.code === 'USD' && to.code === 'JPY') baseRate = 151.62;
+            else if (from.code === 'JPY' && to.code === 'USD') baseRate = 0.0066;
             else if (from.code === 'USD' && to.code === 'AUD') baseRate = 1.52;
+            else if (from.code === 'AUD' && to.code === 'USD') baseRate = 0.66;
             else if (from.code === 'USD' && to.code === 'CAD') baseRate = 1.35;
+            else if (from.code === 'CAD' && to.code === 'USD') baseRate = 0.74;
             else if (from.code === 'USD' && to.code === 'CHF') baseRate = 0.90;
+            else if (from.code === 'CHF' && to.code === 'USD') baseRate = 1.11;
             else if (from.code === 'USD' && to.code === 'CNY') baseRate = 7.23;
+            else if (from.code === 'CNY' && to.code === 'USD') baseRate = 0.14;
             else if (from.code === 'USD' && to.code === 'RUB') baseRate = 92.45;
-            else baseRate = (Math.random() * 5 + 0.5);
+            else if (from.code === 'RUB' && to.code === 'USD') baseRate = 0.011;
+            else baseRate = (Math.random() * 5 + 0.5); // ברירת מחדל – אם אין התאמה ידועה
+
 
             // סטייה קטנה של ±0.05 מהערך הבסיסי
             const rate = (baseRate + (Math.random() * 0.1 - 0.05)).toFixed(4);

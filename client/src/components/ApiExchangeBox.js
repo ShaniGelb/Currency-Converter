@@ -5,6 +5,7 @@ import api from '../services/api';
 // This component allows users to convert currencies using an external API.
 
 function ApiExchangeBox({ currencies }) {
+    // State for the conversion form (selected currencies, amount, date, etc.)
     const [fromCurrency, setFromCurrency] = useState('USD');
     const [toCurrency, setToCurrency] = useState('EUR');
     const [amount, setAmount] = useState(1);
@@ -15,6 +16,7 @@ function ApiExchangeBox({ currencies }) {
     const [loading, setLoading] = useState(false);
     const [lastUpdate, setLastUpdate] = useState(null);
 
+    // Fetch exchange rate from the external API and calculate the result
     const fetchRate = async () => {
         setLoading(true);
         setError(null);
@@ -37,6 +39,7 @@ function ApiExchangeBox({ currencies }) {
         setLoading(false);
     };
 
+    // Render the conversion form and result
     return (
         <div className="exchange-box api-box">
             <h2>Conversion (External API)</h2>
@@ -90,6 +93,7 @@ function ApiExchangeBox({ currencies }) {
                     <div className="result">
                         <p>1 {fromCurrency} = {rate} {toCurrency}</p>
                         <p>{amount} {fromCurrency} = {result} {toCurrency}</p>
+                        {/* Show last update time if available */}
                         {lastUpdate && <p className="last-update">Last update: {lastUpdate}</p>}
                     </div>
                 )}
